@@ -2,20 +2,35 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const Sequelize = require('sequelize');
 const session = require('express-session');
-
+const commentRoute = require('./routes/comments');
 const app = express();
-
-app.engine('handlebars', exphbs());
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 app.set('view engine', 'handlebars');
 
-const sequelize = new Sequelize('database', 'username', 'password');
-app.use(session({ secret: 'keyboard cat' }));
+const sequelize = require('./config/config');
+
+const sess = {
+    secret: 'keyboard cat',
+    cookie: {
+      maxAge: 300000,
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+      db: sequelize
+    })
+  };
+  
+app.use(session(sess));
 
 // Set up routes
 app.get('/', require('./routes/home'));
 app.get('/dashboard', require('./routes/dashboard'));
 app.get('/post/:id', require('./routes/post'));
-app.post('/post/:id/comment', require('./routes/comment'));
+app.post('/post/:id/comment', require('./routes/comments'));
 app.get('/login', require('./routes/login'));
 app.post('/login', require('./routes/login'));
 app.get('/signup', require('./routes/signup'));
@@ -38,4 +53,5 @@ app.use((req, res, next) => {
 // Start the server
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
+  sequelize.sync({ force: false });
 });
