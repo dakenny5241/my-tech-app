@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Post, Comment, User } = require('../models/');
+const { Post, Comment, user } = require('../models/');
 
     // Render the homepage with existing blog posts if any have been posted
     router.get('/', async (req, res) => {
         try {
           const postData = await Post.findAll({
-            include: [User],
+            include: [user],
           });
       
           const posts = postData.map((post) => post.get({ plain: true }));

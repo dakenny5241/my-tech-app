@@ -1,19 +1,7 @@
 // models/post.js
 const Sequelize = require('sequelize');
-
-const post = sequelize.define('post', {
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  content: {
-    type: Sequelize.TEXT,
-    allowNull: false
-  },
-  userId: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  }
-});
-
+const post = require ('../models/post');
+const user = require ('../models/user');
+const sequelize = require('../config/connection');
+ 
 module.exports = post;
