@@ -11,7 +11,7 @@ const { Post, Comment, User } = require('../models/');
       
           const posts = postData.map((post) => post.get({ plain: true }));
       
-          res.render('home', { posts });
+          res.render('homepage', { posts });
         } catch (err) {
           console.log("error= ",err);
           res.status(500).json(err);
