@@ -5,9 +5,9 @@ const session = require('express-session');
 const commentRoute = require('./routes/comments');
 const app = express();
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-app.set('view engine', 'handlebars');
+app.set('view engine','handlebars');
 
-const sequelize = require('./config/config');
+const sequelize = require('./config/connection');
 
 const sess = {
     secret: 'keyboard cat',
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 });
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
+app.listen(3001, () => {
+  console.log('Server listening on port 3001');
   sequelize.sync({ force: false });
 });
