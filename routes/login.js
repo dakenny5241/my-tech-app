@@ -6,7 +6,8 @@ module.exports = (req, res) => {
       req.session.user = req.body.username;
       // Redirect to the dashboard
       res.redirect('/dashboard');
-    } else {
+    } else if (req.body.username === 'username' && req.body.password !== 'password') {
+      
       // Redirect to the login page if the username and password don't match
       res.redirect('/login');
     }
